@@ -6,6 +6,7 @@ import time
 import dlib
 import cv2
 from datetime import datetime
+from playsound import playsound
 
 
 #Hàm vẽ các khung hình trên khuôn mặt 
@@ -17,19 +18,20 @@ def get_max_area_rect(rects):
         areas.append(rect.area())
     return rects[areas.index(max(areas))]
 
-#hàm tính vị trí 
-def get_eye_aspect_ratio(eye):
-    # eye landmarks (x, y)-coordinates
-    vertical_1 = distance.euclidean(eye[1], eye[5])
-    vertical_2 = distance.euclidean(eye[2], eye[4])
-    horizontal = distance.euclidean(eye[0], eye[3])
+#hàm tính toán tỉ lệ khung hình mắt 
+def get_eye_aspect_ratio(eye): 
+    # các điểm đánh dấu  mắt với tọa độ (x,y) trên landmarks
+    vertical_1 = distance.euclidean(eye[1], eye[5]) # các điểm nằm dọc theo mắt 
+    vertical_2 = distance.euclidean(eye[2], eye[4]) # các điểm nằm dọc theo mắt 
+    horizontal = distance.euclidean(eye[0], eye[3]) # các điểm nằm ngnag theo mắt 
     #returns EAR
     return (vertical_1+vertical_2)/(horizontal*2)
 
-#computes the mouth aspect ratio (mar)
+
+#Hàm tính toán tỉ lệ khung hình miệng
 def get_mouth_aspect_ratio(mouth):
-    # mouth landmarks (x, y)-coordinates
-    horizontal=distance.euclidean(mouth[0],mouth[4])
+    # các điểm đánh dấu miệng trên file land mark
+    horizontal=distance.euclidean(mouth[0],mouth[4]) # các điểm nằm ngang miệng 
     vertical=0
     for coord in range(1,4):
         vertical+=distance.euclidean(mouth[coord],mouth[8-coord])
@@ -37,89 +39,101 @@ def get_mouth_aspect_ratio(mouth):
     return vertical/(horizontal*3)
 
 
-# Facial processing
+# Hàm xử lí khuôn mặt 
 def facial_processing():
-    distracton_initialized = False
+    distracton_initialized = False # Biến boolean để tính so sánh mức độ xao nhãng 
     eye_initialized      = False
     mouth_initialized    = False
     normal_initialized   = False
 	
-    #get face detector and facial landmark predector
+    #Lấy dữ liệu các điểm đánh dấu trên khuôn mặt qua file 68 face landmarks sử dụng thuật toán trong dlib pack
+    #dlib là một công cụ trong C++ chứa các thuật toán nhận diện khuôn mặt để giải quyết các vấn đề về thế giới thực .
     detector    = dlib.get_frontal_face_detector()
-    predictor   = dlib.shape_predictor('shape_predictor_68_face_landmarks.dat')
+    predictor   = dlib.shape_predictor('shape_predictor_68_face_landmarks.dat')   #sử dụng để chuyển thành các điểm trên khuôn mặt 
 
-    # grab the indexes of the facial landmarks for the left and right eye, respectively
+
+
+    # Lấy các chỉ số của các mốc trên khuôn mặt cho mắt trái và mắt phải, tương ứng
     ls,le = face.FACIAL_LANDMARKS_IDXS["left_eye"]
     rs,re = face.FACIAL_LANDMARKS_IDXS["right_eye"]
 
-    #start video stream
+    #sử dung webcam của máy tính 
     cap=cv2.VideoCapture(0)
     
-    #count the fps
+    #Đếm số khung hình 
     fps_counter=0
-    fps_to_display='initializing...'
+    fps_to_display='Dang nhan dien.....'
     fps_timer=time.time()
-    # loop over frames from the video stream
+    # vòng lặp để chuyển đổi ảnh tại các khung hình tại web cam 
+    
     while True:
         _ , frame=cap.read()
         fps_counter+=1
-	#flip around y-axis
+        
+	#Lật frame theo trục y để cho ảnh giống trong gương :D
         frame = cv2.flip(frame, 1)
         if time.time()-fps_timer>=1.0:
             fps_to_display=fps_counter
             fps_timer=time.time()
             fps_counter=0
-	#displays framerate on screen
+            
+	#Hiển thị fps lên màn hình 
         cv2.putText(frame, "FPS :"+str(fps_to_display), (frame.shape[1]-100, frame.shape[0]-10),\
                     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
 
 
-	#convert frame to grayscale
+	#Chuyển đổi ảnh sang khung hình xám và sử dụng thang đo màu Blue green red để sử dụng cho thuật toán CNN
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 	
 	
-	# detect faces in the grayscale frame
+	# phát hiện khuôn mặt trong khung hình xám 
         rects = detector(gray, 0)
-	#draw bounding box on face
+        
+        
+	#Vẽ các bouding box quanh khuôn mặt khi nhận ra 
         rect=get_max_area_rect(rects)
 
-
+# khi khung hình k được phát hiện 
         if rect!=None:
-            #measures the duration the users eyes were off the road
-            if distracton_initialized==True:
-                interval=time.time()-distracton_start_time
-                interval=str(round(interval,3))
-		#gets the current date/time
+            #đo thời gian mắt người dùng khi rời khỏi đường 
+            if distracton_initialized==True:    
+                interval=time.time()-distracton_start_time # Khoảng thời gian bằng thời gian hàm thời gian - thời gian rời khỏi màn hình 
+                interval=str(round(interval,3))  # khoảng thời gian sẽ bằng một giá trị thập phân được tính bên trên lấy giá trị thập phân dưới 3 con số 
+                
+                
+		#lay gia trị hiện tại dựa vào thư viện thời gian trong máy tính 
                 dateTime= datetime.now()
                 distracton_initialized=False
-                info="Date: " + str(dateTime) + ", Interval: " + interval + ", Type: Eyes not on road"
+                info="Ngay: " + str(dateTime) + ", Khoangthoigian: " + interval + ", Type: Ban dang mat tap trung khi lai xe !"
                 info=info+ "\n"
                 if time.time()- distracton_start_time> DISTRACTION_INTERVAL:
-		   #stores the info into a txt file
+		   #Lưu giá trị vào file output.txt
+     
                     with open(r'output.txt', "a+") as file_object:
                         file_object.write(info)
 			
-	    # determine the facial landmarks for the face region, then convert the facial landmark (x, y)-coordinates to a NumPy array
-            shape = predictor(gray, rect)
+	    # xác định các vùng trên khuôn mặt , sau đó chuyển đổi tọa độ khuôn mặt (x, y) thành mảng NumPy
+            shape = predictor(gray, rect)    #dựa vào file 68 landmark và hình ảnh webcam xác định khuôn mặt 
             shape = face.shape_to_np(shape)
 		
-	    # extract the left and right eye coordinates, then use the
-	    # coordinates to compute the eye aspect ratio for both eyes
+	    # trích xuất tọa độ mắt trái và phải, sau đó sử dụng
+	    # tọa độ để tính tỷ lệ khung hình mắt cho cả hai mắt
             leftEye = shape[ls:le]
             rightEye = shape[rs:re]
-	    #gets the EAR for each eye
-            leftEAR = get_eye_aspect_ratio(leftEye)
-            rightEAR = get_eye_aspect_ratio(rightEye)
-
-            inner_lips=shape[60:68]
+	    #Lấy tọa độ khung hình cho mỗi mắt 
+            leftEAR = get_eye_aspect_ratio(leftEye)  #tọa độ tại mắt trái sử dụng hàm get_eye 
+            rightEAR = get_eye_aspect_ratio(rightEye) #tọa độ tại mắt phải 
+        # lấy tọa độ miệng 
+            inner_lips=shape[60:68]   
             mar=get_mouth_aspect_ratio(inner_lips)
 
 	
-	    # average the eye aspect ratio together for both eyes
+	    # trung bình tỷ lệ khung hình mắt với nhau cho cả hai mắt
             eye_aspect_ratio = (leftEAR + rightEAR) / 2.0
 
-	    # compute the convex hull for the left and right eye, then
-	    # visualize each of the eyes, draw bounding boxes around eyes
+            
+        # Tính toán phần nhận ra ở cả hai mắt trái và phải , sau đó
+	    #  vẽ các hình giới hạn quanh mắt
             leftEyeHull = cv2.convexHull(leftEye)
             rightEyeHull = cv2.convexHull(rightEye)
             cv2.drawContours(frame, [leftEyeHull], -1, (255, 255, 255), 1)
@@ -127,108 +141,118 @@ def facial_processing():
             lipHull = cv2.convexHull(inner_lips)
             cv2.drawContours(frame, [lipHull], -1, (255, 255, 255), 1)
 
-	    #display EAR on screen
-            cv2.putText(frame, "EAR: {:.2f} MAR{:.2f}".format(eye_aspect_ratio,mar), (10, frame.shape[0]-10),\
+	    #Hien thị các giá trị tỉ lệ khung hình
+            cv2.putText(frame, "khung mat: {:.2f} khung mieng:{:.2f}".format(eye_aspect_ratio,mar), (10, frame.shape[0]-10),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-	    #checking if eyes are drooping/almost closed
+            
+            
+	    #kiểm tra mắt có nhắm vào hay không 
             if eye_aspect_ratio < EYE_DROWSINESS_THRESHOLD:
 
-                if not eye_initialized:
-                    eye_start_time= time.time()
+                if not eye_initialized: 
+                    eye_start_time= time.time() #thời gian mắt bắt đầu nhắm
                     eye_initialized=True
-		#checking if eyes are drowsy for a sufficient number of frames
-                if time.time()-eye_start_time >= EYE_DROWSINESS_INTERVAL:
+                    
+                    
+		#Kiểm tra xem mắt có buồn ngủ trên các khung hình không
+                if time.time()-eye_start_time >= EYE_DROWSINESS_INTERVAL:  #nếu giá trị thời gian nhắm >= khoảng cách mắt buồn ngủ 
                     cv2.putText(frame, "Ban dang buon ngu!!", (10, 30),
                                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-                    #uncomment the three lines below to help check the validity of the program
-                    #dateTimeOBJ=datetime.now()
-                    #eye_info="Date: " + str(dateTimeOBJ) + " Interval: " + str(time.time()-eye_start_time ) + " Drowsy"
-                    #print(eye_info)
+                    playsound('Ngugat.mp3')
+
+                    dateTimeOBJ=datetime.now()
+                    eye_info="Ngay: " + str(dateTimeOBJ) + " Khoangtg: " + str(time.time()-eye_start_time ) + "Dang buon ngu!!"
+                    print(eye_info)
 
             else:
-                #measures the duration where the users eyes were drowsy
+                #đo khoảng thời gian mà mắt người dùng buồn ngủ
                 if eye_initialized==True:
                     interval_eye=time.time()-eye_start_time
                     interval_eye=str(round(interval_eye,3))
                     dateTime_eye= datetime.now()
                     eye_initialized=False
-                    info_eye="Date: " + str(dateTime_eye) + ", Interval: " + interval_eye + ", Type:Drowsy"
+                    info_eye="ngay: " + str(dateTime_eye) + ",Khoangtg: " + interval_eye + ",Giatri:Dang buong ngu!!"
                     info_eye=info_eye+ "\n"
-		    ##will only store the info if user eyes close/droop for a sufficient amount of time
+		    # chỉ lưu trữ thông tin nếu mắt người dùng nhắm mắt trong một khoảng thời gian, đủ
                     if time.time()-eye_start_time >= EYE_DROWSINESS_INTERVAL:
-			#store info into a txt file
+                        
+                        
+			#lưu giá trị ra file txt 
                         with open(r'output.txt', "a+") as file_object:
                             file_object.write(info_eye)
 
 
 
-	    #checks if user is yawning
-            if mar > MOUTH_DROWSINESS_THRESHOLD:
+	    #Kiem ta nguoi dùng đang ngáp ngủ 
+            if mar > MOUTH_DROWSINESS_THRESHOLD: #kiểm tra bằng các điểm đnáh dấu trên miệng
 
                 if not mouth_initialized:
                     mouth_start_time= time.time()
                     mouth_initialized=True
-		#checks if the user is yawning for a sufficient number of frames
+                    
+		#kiểm tra người dùng ngáp trung khoảng thời gian từng khung hình 
                 if time.time()-mouth_start_time >= MOUTH_DROWSINESS_INTERVAL:
                     cv2.putText(frame, "BAN DANG NGAP NGU!!", (10, 70),
                                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-                    #uncomment the lines below to check the validity of this program
-                    #dateTimeOBJ2=datetime.now()
-                    #mouth_info="date: " + str(dateTimeOBJ2) + " Interval: " + str(time.time()-mouth_start_time ) + " Yawning" + " mar " + str(mar)
-                    #print(mouth_info)
+                    playsound('Ngap.mp3')
+                   
+                    dateTimeOBJ2=datetime.now()
+                    mouth_info="Ngay: " + str(dateTimeOBJ2) + "Khoangtg: " + str(time.time()-mouth_start_time ) + " Ngap Ngu" + " Ti Le " + str(mar)
+                    print(mouth_info)
 
             else:
-                #measures duration of users yawn
+                
+                #Đo khoảng cách miệng 
                 if mouth_initialized==True:
                     interval_mouth=time.time()-mouth_start_time
                     interval_mouth=str(round(interval_mouth,3))
                     dateTime_mouth= datetime.now()
                     mouth_initialized=False
-                    info_mouth="Date: " + str(dateTime_mouth) + ", Interval: " + interval_mouth + ", Type:Yawning"
+                    info_mouth="Ngay: " + str(dateTime_mouth) + ",Khoangtg: " + interval_mouth + ", Giatri :Dang ngap ngu!!"
                     info_mouth=info_mouth+ "\n"
-		    #will only store the info if user yawns for a sufficient amount of time
+		   
                     if time.time()-mouth_start_time >= MOUTH_DROWSINESS_INTERVAL:
-			#store into into a txt file
+			#lưu ra file txt
                         with open(r'output.txt', "a+") as file_object:
                             file_object.write(info_mouth)
 
 
-            #checks if the user is focused
+            #Kiểm tra xem người dùng có đang tập trung lái xe
             if (eye_initialized==False) & (mouth_initialized==False) & (distracton_initialized==False):
 
                 if not normal_initialized:
                     normal_start_time= time.time()
                     normal_initialized=True
 
-		#checks if the user is focused for a sufficient number of frames
+		#kiểm tra người dùng đang tập trung lái xe theo thời gian và từng khung hình , nếu có thì in ra bình thường
                 if time.time()-normal_start_time >= NORMAL_INTERVAL:
-                        cv2.putText(frame, "Normal!", (10, 30),
+                        cv2.putText(frame, "Trang thai binh thuong!", (10, 30),
                                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-                        print('Normal')
+                        print('Binh Thuong')
             else:
                 if normal_initialized==True:
                     interval_normal=time.time()-normal_start_time
                     interval_normal=str(round(interval_normal,3))
                     dateTime_normal= datetime.now()
                     normal_initialized=False
-                    info_normal="Date: " + str(dateTime_normal) + ", Interval: " + interval_normal+ ", Type:Normal"
+                    info_normal="Ngay: " + str(dateTime_normal) + ",Khoangtg: " + interval_normal+ ", Giatri: Binh thuong"
                     info_normal=info_normal+ "\n"
-		    #will only store the info if user is focused for a sufficient amount of time
+		  
                     if time.time()-normal_start_time >= NORMAL_INTERVAL:
                         with open(r'output.txt', "a+") as file_object:
                             file_object.write(info_normal)
 
 
-	#if the user's face is not focused on the road, the eyes/mouth features cannot be computed
+	#Nếu người dùng k tập trung trên đường thì các giá trị mắt và miệng không thể tính toán 
         else:
-            #I added this here, if the user ever turns their head so that their eyes are no longer on the road
-            #but at the same time their eyes were drowsy at first, this resets the timer for the drowsiness detector
+            # nếu người dùng quay đi và mắt họ không còn trên đường nữa
+            #nhưng lúc đầu có vẻ như là buồn ngủ , câu lệnh if sẽ kiểm tra và phát hiện buồn ngủ và cảnh báo cho người lái xe tập trung chú ý lái xe 
             if eye_initialized==True:
                     interval_eye=time.time()-eye_start_time
                     interval_eye=str(round(interval_eye,3))
                     dateTime_eye= datetime.now()
                     eye_initialized=False
-                    info_eye="Date: " + str(dateTime_eye) + ", Interval: " + interval_eye + ", Type:Drowsy"
+                    info_eye="Ngay: " + str(dateTime_eye) + ", Khoangtg: " + interval_eye + ", Giatri : Buon ngu"
                     info_eye=info_eye+ "\n"
                     if time.time()-eye_start_time >= EYE_DROWSINESS_INTERVAL:
                         with open(r'output.txt', "a+") as file_object:
@@ -237,22 +261,23 @@ def facial_processing():
             if not distracton_initialized:
                 distracton_start_time=time.time()
                 distracton_initialized=True
-                #eye_initialized=False
-	    #checks if the user's eyes are off the road after a sufficient number of frames
+              
+              
             if time.time()- distracton_start_time> DISTRACTION_INTERVAL:
-		#displays on screen that the driver's eyes are off the road
+		#Hien thi cho nguoi lai xe hay chu y lai xe 
                 cv2.putText(frame, "HAY CHU Y LAI XE !", (10, 30),
                             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-                #uncomment the line below if want to check the validity of the program
+                playsound('Khongchuy.mp3')
+                
                 #dateTimeOBJ3=datetime.now()
                 #DIST_info="date: " + str(dateTimeOBJ3) + " Interval: " + str(time.time()-distracton_start_time) + " EYES NOT ON ROAD"
                 #print(DIST_info)
 
-	#show the frame
+	#Hiện thị 
         cv2.imshow("Frame", frame)
         key = cv2.waitKey(5)&0xFF
 	
-	# if the `q` key was pressed, break from the loop
+	# Ấn q để thoát chương trình khung hình
         if key == ord("q"):
             break
 	

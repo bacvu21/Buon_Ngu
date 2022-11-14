@@ -191,3 +191,104 @@ Date: 2022-11-06 15:55:42.807676, Interval: 13.459, Type:Normal
 Date: 2022-11-06 15:55:49.931264, Interval: 6.087, Type:Normal
 Date: 2022-11-06 15:55:54.718513, Interval: 2.052, Type:Normal
 Date: 2022-11-06 15:55:57.933116, Interval: 1.401, Type:Normal
+Date: 2022-11-08 14:21:33.786933, Interval: 2.684, Type:Normal
+Date: 2022-11-08 14:21:38.726531, Interval: 3.953, Type:Normal
+Date: 2022-11-08 14:21:41.066505, Interval: 2.34, Type:Yawning
+Date: 2022-11-08 14:21:47.202004, Interval: 3.051, Type:Normal
+Date: 2022-11-08 14:21:49.952920, Interval: 2.001, Type:Normal
+Date: 2022-11-08 14:21:53.975510, Interval: 3.558, Type:Normal
+Date: 2022-11-08 14:22:05.028903, Interval: 8.106, Type:Normal
+Date: 2022-11-08 14:22:07.891371, Interval: 2.802, Type:Normal
+Date: 2022-11-08 14:22:10.370460, Interval: 1.814, Type:Normal
+Date: 2022-11-08 14:22:14.576977, Interval: 2.687, Type:Yawning
+Date: 2022-11-08 14:22:17.621893, Interval: 1.088, Type:Normal
+Date: 2022-11-08 14:22:22.080822, Interval: 2.966, Type:Drowsy
+Date: 2022-11-08 14:22:27.759745, Interval: 1.971, Type:Normal
+Date: 2022-11-08 14:22:39.614062, Interval: 2.533, Type:Normal
+Date: 2022-11-08 14:22:42.890639, Interval: 2.921, Type:Yawning
+Date: 2022-11-08 14:22:52.499818, Interval: 4.155, Type: Eyes not on road
+Date: 2022-11-08 14:22:52.719817, Interval: 4.703, Type:Normal
+Date: 2022-11-08 14:51:01.598029, Interval: 2.742, Type:Normal
+Date: 2022-11-08 14:52:18.673907, Interval: 1.541, Type:Normal
+Date: 2022-11-08 14:54:12.330233, Interval: 1.507, Type:Normal
+Date: 2022-11-08 14:54:25.017288, Interval: 7.819, Type:Drowsy
+Date: 2022-11-08 14:54:28.299191, Interval: 1.546, Type:Normal
+Date: 2022-11-08 14:54:37.373248, Interval: 7.229, Type:Drowsy
+Date: 2022-11-08 14:54:38.405039, Interval: 1.031, Type:Normal
+Date: 2022-11-08 14:54:43.762042, Interval: 4.865, Type:Normal
+Date: 2022-11-08 14:54:49.867550, Interval: 6.031, Type:Normal
+Date: 2022-11-08 14:54:51.947315, Interval: 2.044, Type:Normal
+Date: 2022-11-08 14:54:59.618243, Interval: 7.6, Type:Normal
+Date: 2022-11-08 14:55:02.056031, Interval: 1.579, Type:Normal
+Date: 2022-11-08 14:55:07.017769, Interval: 3.902, Type:Normal
+Date: 2022-11-08 14:55:10.232061, Interval: 1.342, Type:Normal
+Date: 2022-11-08 14:55:11.795538, Interval: 1.203, Type:Normal
+Date: 2022-11-08 14:55:23.897235, Interval: 7.738, Type:Drowsy
+Date: 2022-11-08 14:55:26.804138, Interval: 2.907, Type:Normal
+Date: 2022-11-08 14:55:33.114025, Interval: 5.365, Type:Normal
+Date: 2022-11-08 14:55:34.427962, Interval: 1.267, Type:Normal
+Date: 2022-11-08 14:55:44.995446, Interval: 4.655, Type:Normal
+Date: 2022-11-08 14:56:00.225010, Interval: 11.355, Type:Normal
+Date: 2022-11-08 14:56:11.380640, Interval: 7.197, Type:Drowsy
+Date: 2022-11-08 14:56:18.705308, Interval: 4.016, Type:Normal
+Date: 2022-11-08 14:56:21.018128, Interval: 1.185, Type:Normal
+Date: 2022-11-08 14:56:30.731935, Interval: 8.671, Type:Normal
+Date: 2022-11-08 14:56:39.984446, Interval: 2.002, Type:Yawning
+Date: 2022-11-08 14:56:41.814433, Interval: 1.686, Type:Yawning
+Date: 2022-11-08 14:56:47.750870, Interval: 7.198, Type:Drowsy
+Date: 2022-11-08 14:56:51.307635, Interval: 2.883, Type:Normal
+Date: 2022-11-08 14:56:55.056460, Interval: 3.376, Type:Normal
+Date: 2022-11-08 14:56:58.551303, Interval: 1.01, Type:Normal
+Date: 2022-11-08 14:58:17.257607, Interval: 4.203, Type:Yawning
+Date: 2022-11-08 14:58:24.032659, Interval: 4.304, Type:Normal
+Date: 2022-11-08 14:58:35.366300, Interval: 7.562, Type: Eyes not on road
+Date: 2022-11-08 14:58:35.408300, Interval: 8.307, Type:Normal
+Date: 2022-11-08 14:58:43.411384, Interval: 2.842, Type:Normal
+Date: 2022-11-08 14:58:50.614188, Interval: 6.36, Type:Normal
+Date: 2022-11-08 14:59:42.149832, Interval: 50.707, Type:Normal
+Date: 2022-11-08 14:59:43.919141, Interval: 1.727, Type:Normal
+Date: 2022-11-08 15:00:33.673681, Interval: 49.718, Type:Normal
+Date: 2022-11-08 15:00:37.877397, Interval: 4.097, Type:Yawning
+Date: 2022-11-08 15:00:39.838337, Interval: 1.284, Type:Normal
+Date: 2022-11-08 15:00:43.600659, Interval: 1.999, Type:Normal
+Date: 2022-11-08 15:00:46.170864, Interval: 2.378, Type:Normal
+Date: 2022-11-08 15:03:48.042259, Interval: 4.717, Type:Yawning
+Date: 2022-11-08 15:03:51.173088, Interval: 1.314, Type:Normal
+Date: 2022-11-08 15:03:53.953819, Interval: 2.781, Type:Yawning
+Date: 2022-11-08 15:03:58.004464, Interval: 2.441, Type:Normal
+Date: 2022-11-08 15:04:01.002268, Interval: 1.758, Type:Normal
+Date: 2022-11-08 15:04:21.105424, Interval: 17.539, Type:Drowsy
+Date: 2022-11-08 15:04:26.171635, Interval: 3.344, Type:Normal
+Date: 2022-11-08 15:04:33.249836, Interval: 5.673, Type:Normal
+Date: 2022-11-08 15:04:36.316259, Interval: 3.029, Type:Normal
+Date: 2022-11-08 15:04:44.790574, Interval: 1.781, Type:Normal
+Date: 2022-11-08 15:04:46.447052, Interval: 1.532, Type:Normal
+Date: 2022-11-08 15:05:00.496650, Interval: 12.95, Type:Yawning
+Date: 2022-11-08 15:05:10.876340, Interval: 24.429, Type:Drowsy
+Date: 2022-11-08 15:05:15.092217, Interval: 4.215, Type:Normal
+Ngay: 2022-11-14 23:15:16.415497, Khoangtg: 5.11, Giatri: Binh thuong
+Ngay: 2022-11-14 23:15:21.773563, Khoangtg: 5.314, Giatri: Binh thuong
+Ngay: 2022-11-14 23:15:23.979379, Khoangtg: 1.969, Giatri: Binh thuong
+ngay: 2022-11-14 23:15:31.714541,Khoangtg: 7.735,Giatri:Dang buong ngu!!
+Ngay: 2022-11-14 23:15:36.166606, Khoangtg: 4.451, Giatri: Binh thuong
+Ngay: 2022-11-14 23:15:38.707436, Khoangtg: 2.417, Giatri: Binh thuong
+Ngay: 2022-11-14 23:15:40.205912, Khoangtg: 1.32, Giatri: Binh thuong
+Ngay: 2022-11-14 23:15:49.567178, Khoangtg: 7.495, Giatri : Buon ngu
+Ngay: 2022-11-14 23:15:52.796274, Khoangtg: 1.164, Giatri: Binh thuong
+Ngay: 2022-11-14 23:15:57.150192, Khoangtg: 2.98, Giatri: Binh thuong
+Ngay: 2022-11-14 23:17:20.235768,Khoangtg: 1.224, Giatri: Binh thuong
+Ngay: 2022-11-14 23:17:22.521840,Khoangtg: 1.142, Giatri: Binh thuong
+Ngay: 2022-11-14 23:17:25.475891,Khoangtg: 2.824, Giatri: Binh thuong
+Ngay: 2022-11-14 23:17:27.389615,Khoangtg: 1.157, Giatri: Binh thuong
+Ngay: 2022-11-14 23:17:36.999295,Khoangtg: 6.829, Giatri: Binh thuong
+Ngay: 2022-11-14 23:17:40.528208,Khoangtg: 3.194, Giatri :Dang ngap ngu!!
+Ngay: 2022-11-14 23:17:42.804489,Khoangtg: 1.844, Giatri: Binh thuong
+ngay: 2022-11-14 23:17:46.556169,Khoangtg: 2.332,Giatri:Dang buong ngu!!
+Ngay: 2022-11-14 23:17:46.556169,Khoangtg: 3.153, Giatri :Dang ngap ngu!!
+Ngay: 2022-11-14 23:17:49.720268,Khoangtg: 2.442, Giatri: Binh thuong
+Ngay: 2022-11-14 23:17:51.228146,Khoangtg: 1.237, Giatri: Binh thuong
+Ngay: 2022-11-14 23:18:46.607296,Khoangtg: 7.077, Giatri: Binh thuong
+Ngay: 2022-11-14 23:18:48.335645,Khoangtg: 1.637, Giatri: Binh thuong
+Ngay: 2022-11-14 23:18:53.979581,Khoangtg: 3.163, Giatri :Dang ngap ngu!!
+Ngay: 2022-11-14 23:18:59.438422,Khoangtg: 2.869, Giatri: Binh thuong
+Ngay: 2022-11-14 23:19:09.141475,Khoangtg: 8.166, Giatri :Dang ngap ngu!!
