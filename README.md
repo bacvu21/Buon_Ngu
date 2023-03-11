@@ -1,1 +1,2 @@
-# được góp nhặt từ nhiều nơi :v và tạo lên file này ,còn nhiều khuyết điểm 
+# Được đóng góp từ nhiều nguồn khác nhau , tham khảo từ các trang web 
+
